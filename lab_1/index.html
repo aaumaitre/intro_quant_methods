@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introduction to Quantitative Methods</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ariane Aumaitre" />
+    <meta name="date" content="2020-06-10" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Quantitative Methods
+## -R Lab 1-
+### Ariane Aumaitre
+### European University Institute
+### 06/10/2020
+
+---
+
+
+
+
+
+
+
+background-image: url(https://i.ibb.co/kyMCbQ7/r-first-then.png)
+background-size: 1000px
+background-position: 50% 50%
+class: bottom 
+
+##### Illustration: Allison Horst
+---
+background-image: url(https://i.ibb.co/yQQNVcC/image.png)
+background-size: 800px
+background-position: 50% 75%
+
+# Goals for today 📝
+&amp;nbsp;
+&amp;nbsp;
+* '**R** recap'
+
+* An overwiew on **importing**, **cleaning** and **transforming** your data 💻
+
+* An introduction do data **exploration**  through **visualization** and **summary statistics** 🔎 
+
+---
+
+# Getting started: libraries and data
+
+* If needed, install the following:
+
+
+```r
+install.packages("tidyverse")
+install.packages("palmerpenguins")
+```
+
+* Loading libraries:
+
+
+```r
+library(tidyverse)
+library(palmerpenguins)
+```
+
+Loading our toy data for today 🐧: 
+
+
+```r
+data &lt;- penguins
+```
+
+More info on this dataset: https://github.com/allisonhorst/palmerpenguins
+---
+
+#Importing data: packages
+&amp;nbsp;
+&amp;nbsp;
+&amp;nbsp;
+
+&lt;style type="text/css"&gt;
+.tg  {border-collapse:collapse;border-color:#aaa;border-spacing:0;}
+.tg td{background-color:#fff;border-bottom-width:1px;border-color:#aaa;border-style:solid;border-top-width:1px;
+  border-width:0px;color:#333;font-family:Josefin Sans;font-size:16px;overflow:hidden;padding:16px 20px;
+  word-break:normal;}
+.tg th{background-color:#f38630;border-bottom-width:1px;border-color:#aaa;border-style:solid;border-top-width:1px;
+  border-width:0px;color:#fff;font-family:Josefin Sans;font-size:16px;font-weight:normal;overflow:hidden;
+  padding:14px 18px;word-break:normal;}
+.tg .tg-y3zf{background-color:#ffffff;border-color:#B82F77e;text-align:center;vertical-align:top}
+.tg .tg-f4o9{background-color:#ffffff;border-color:#B82F77e;font-style:italic;text-align:center;vertical-align:top}
+.tg .tg-ogoq{background-color:#ffffff;border-color:#B82F77e;font-style:italic;text-align:center;vertical-align:top}
+.tg .tg-xads{background-color:#ffffff;border-color:#B82F77e;color:#B82F77;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-24j6{background-color:#ffffff;border-color:#B82F77e;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-elfb{background-color:#ffffff;border-color:#B82F77e;font-weight:bold;text-align:center;vertical-align:top}
+.tg .tg-b2qw{background-color:#ffffff;border-color:#B82F77e;text-align:center;vertical-align:top}
+&lt;/style&gt;
+&lt;table class="tg"&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th class="tg-xads"&gt;Package&lt;/th&gt;
+    &lt;th class="tg-xads"&gt;Files&lt;/th&gt;
+    &lt;th class="tg-xads"&gt;Functions&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-24j6"&gt;haven&lt;/td&gt;
+    &lt;td class="tg-ogoq"&gt;Stata, SPSS, SAS&lt;/td&gt;
+    &lt;td class="tg-y3zf"&gt;read_dta("yourfile.dta")&lt;br&gt;read_sav()&lt;br&gt;read_sas()&lt;br&gt; &lt;br&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-elfb"&gt;readr&lt;/td&gt;
+    &lt;td class="tg-f4o9"&gt;csv&lt;/td&gt;
+    &lt;td class="tg-b2qw"&gt;read_csv("yourfile.csv")&lt;br&gt;&lt;br&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-24j6"&gt;readxl&lt;/td&gt;
+    &lt;td class="tg-ogoq"&gt;xls / xlsx&lt;/td&gt;
+    &lt;td class="tg-y3zf"&gt;read_excel("yourfile.xlsx")&lt;br&gt;read_excel("yourfile.xlsx", sheet="name")&lt;br&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+class: inverse, center, middle
+# 1. Getting to know your data
+---
+background-image: url(https://i.ibb.co/fqHWbRf/culmen-depth.png)
+background-size: 350px
+background-position: 50% 100%
+# Getting to know your data🔎️
+&amp;nbsp;
+&amp;nbsp;  
+`head()` shows the first 6 rows of your data. 
+
+To see more (or less), you can do `head(data, n)`
+
+
+```r
+head(data)
+```
+
+```
+## # A tibble: 6 x 8
+##   species island bill_length_mm bill_depth_mm flipper_length_~ body_mass_g sex  
+##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
+## 1 Adelie  Torge~           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge~           39.5          17.4              186        3800 fema~
+## 3 Adelie  Torge~           40.3          18                195        3250 fema~
+## 4 Adelie  Torge~           NA            NA                 NA          NA &lt;NA&gt; 
+## 5 Adelie  Torge~           36.7          19.3              193        3450 fema~
+## 6 Adelie  Torge~           39.3          20.6              190        3650 male 
+## # ... with 1 more variable: year &lt;int&gt;
+```
+---
+# Getting to know your data🔎
+&amp;nbsp;
+&amp;nbsp;
+`str()` gives you an overview of data types
+  
+
+```r
+str(data)
+```
+
+```
+## tibble [344 x 8] (S3: tbl_df/tbl/data.frame)
+##  $ species          : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ island           : Factor w/ 3 levels "Biscoe","Dream",..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ bill_depth_mm    : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ flipper_length_mm: int [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ body_mass_g      : int [1:344] 3750 3800 3250 NA 3450 3650 3625 4675 3475 4250 ...
+##  $ sex              : Factor w/ 2 levels "female","male": 2 1 1 NA 1 2 1 2 NA NA ...
+##  $ year             : int [1:344] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
+```
+---
+# Getting to know your data🔎
+&amp;nbsp;
+&amp;nbsp;
+
+`summary()` gives you summary statistics of your data. 
+You can apply it  to the whole data frame or **to a single variable**
+  
+
+```r
+summary(data$bill_length_mm)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   32.10   39.23   44.45   43.92   48.50   59.60       2
+```
+
+
+```r
+summary(data$bill_depth_mm)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   13.10   15.60   17.30   17.15   18.70   21.50       2
+```
+---
+class: inverse, center, middle
+# 2. Data cleaning and transformation
+---
+background-image: url(https://www.khstats.com/img/dplyr_image.jpg)
+background-size: 400px
+background-position: 50% 90%
+# Let's start cleaning 🧹
+&amp;nbsp;
+&amp;nbsp;
+
+* You will learn how to **filter** observations, **select** columns, **transform** variables, **create** new columns...
+
+* We will also learn how to **group** dataframes to **summarize** information. 
+
+* Our main tool: the **dplyr** package
+
+  
+---
+# Filtering data
+&lt;/br&gt;
+* The `filter()` function 'returns rows with matching conditions'
+
+```r
+filtered_data &lt;- filter(data, bill_length_mm &lt; 44)
+
+head(filtered_data)
+```
+
+```
+## # A tibble: 6 x 8
+##   species island bill_length_mm bill_depth_mm flipper_length_~ body_mass_g sex  
+##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
+## 1 Adelie  Torge~           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge~           39.5          17.4              186        3800 fema~
+## 3 Adelie  Torge~           40.3          18                195        3250 fema~
+## 4 Adelie  Torge~           36.7          19.3              193        3450 fema~
+## 5 Adelie  Torge~           39.3          20.6              190        3650 male 
+## 6 Adelie  Torge~           38.9          17.8              181        3625 fema~
+## # ... with 1 more variable: year &lt;int&gt;
+```
+
+---
+# How to use filter()
+
+&lt;/br&gt;
+
+* Comparison operators: `==, &gt;, &lt;, &gt;=, &lt;=, !=`
+  
+
+```r
+filter(data, bill_length_mm &lt; 44, sex == "male")
+```
+* The `%in%` operator
+
+
+```r
+filter(data, bill_length_mm %in% 30:44) #you can use any kind of vector after the in
+
+#use ! to state "not in"
+filter(data, !bill_length_mm %in% 30:44)
+```
+
+* Filtering NAs out with `is.na()` (be careful ⚠️)
+
+
+```r
+filter(data, !is.na(sex))
+```
+
+---
+
+# Some syntax: the pipe %&gt;%
+
+Compare these two chunks *that produce the same output*
+
+.pull_left[
+
+```r
+filtered_data &lt;- filter(data, bill_length_mm &lt; 44)
+```
+]
+.pull_right[
+
+```r
+filtered_data &lt;- data%&gt;%
+filter(bill_length_mm &lt; 44)
+```
+]
+&lt;/br&gt;
+&lt;/br&gt;
+
+
+* The **pipe operator** can be roughly ranslated as **'then'**: _take my data, do this operation, then take the output and perform another one_
+
+* A way of combining **multiple operations** in your code
+
+* It helps writing shorter, more efficient code and **avoid repetitions**
+
+* Code becomes readable from left-to-right, top-to-bottom
+
+---
+
+# The select() function
+
+&lt;/br&gt;
+Use `select()` to keep only the variables you're interested in
+
+
+```r
+selected_data &lt;- data%&gt;%
+                    select(species, sex, body_mass_g)
+
+head(selected_data)
+```
+
+```
+## # A tibble: 6 x 3
+##   species sex    body_mass_g
+##   &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;
+## 1 Adelie  male          3750
+## 2 Adelie  female        3800
+## 3 Adelie  female        3250
+## 4 Adelie  &lt;NA&gt;            NA
+## 5 Adelie  female        3450
+## 6 Adelie  male          3650
+```
+
+---
+
+# Using select()
+&lt;/br&gt;
+
+* Select by **column name**:
+
+```r
+data%&gt;%
+  select(a,b,c)
+```
+
+* Select by column **position**:
+
+```r
+data%&gt;%
+  select(1:5, 8)
+```
+
+* Select all columns **except one**:
+
+
+```r
+data%&gt;%
+  select(-1)
+```
+
+* Negative selection of a **group of columns**:
+
+
+```r
+data%&gt;%
+  select(-c(a,b,c))
+```
+
+---
+# Chaining operations and arrange()
+&lt;/br&gt;
+
+`arrange()` can be used to order observations by a variable, in ascending or descending order
+
+
+```r
+arranged_data &lt;- data%&gt;%
+  filter(sex =="female")%&gt;%
+  select(species, body_mass_g)%&gt;%
+  arrange(desc(body_mass_g))
+
+head(arranged_data)
+```
+
+```
+## # A tibble: 6 x 2
+##   species body_mass_g
+##   &lt;fct&gt;         &lt;int&gt;
+## 1 Gentoo         5200
+## 2 Gentoo         5200
+## 3 Gentoo         5150
+## 4 Gentoo         5100
+## 5 Gentoo         5050
+## 6 Gentoo         5000
+```
+
+---
+
+# Transforming data with mutate()
+
+&lt;/br&gt;
+
+`mutate()` can be used for creating new variables, while preserving existing ones
+
+
+```r
+new_data &lt;- data%&gt;%
+  mutate(bill_length_cm = bill_length_mm/10)
+
+head(new_data)
+```
+
+```
+## # A tibble: 6 x 9
+##   species island bill_length_mm bill_depth_mm flipper_length_~ body_mass_g sex  
+##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
+## 1 Adelie  Torge~           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge~           39.5          17.4              186        3800 fema~
+## 3 Adelie  Torge~           40.3          18                195        3250 fema~
+## 4 Adelie  Torge~           NA            NA                 NA          NA &lt;NA&gt; 
+## 5 Adelie  Torge~           36.7          19.3              193        3450 fema~
+## 6 Adelie  Torge~           39.3          20.6              190        3650 male 
+## # ... with 2 more variables: year &lt;int&gt;, bill_length_cm &lt;dbl&gt;
+```
+---
+# Useful functions within mutate()
+&lt;/br&gt;
+
+* `ifelse()` to return a column filled with one of two values depending on a condition
+
+
+```r
+data%&gt;%
+  mutate(small_bill = ifelse(bill_length_mm &lt; 44, 1, 0))
+```
+
+* `case_when()` is the easiest way to expand ifelse: 
+
+
+```r
+data%&gt;%
+  mutate(bill_size= case_when(bill_length_mm &lt; 35 ~ "Small",
+                              bill_length_mm %in% 36:50 ~ "Medium",
+                              bill_length_mm &gt;50 ~ "Large"))
+```
+
+* `replace()` to change values in a column for a replacement
+
+
+
+---
+
+background-image: url(https://github.com/allisonhorst/stats-illustrations/raw/master/rstats-artwork/dplyr_mutate.png)
+background-size: 400px
+background-position: 50% 90%
+
+# Packages you may find useful
+&lt;/br&gt;
+
+
+
+* **stringr** for working with text data and character vectors - functions for string cleaning, trimming and working with patterns
+
+* **forcats** for working with categorical data: recoding factors, collapsing values...
+
+* **lubridate** makes working with dates easier 
+
+---
+# Working with groups
+&lt;/br&gt;
+* If you want to work with groups within your data, you need to use the `group_by()` function
+
+* `group_by()` does not produce any output, but whichever operation comes afterwards will be performed *by group*
+
+* After group by, you can either use `mutate()` if you want to keep all your observations or `summarize()` if you are only interested in the group summary
+
+* If you want to keep working with the dataframe as a whole after your group operations, you should always remember to `ungroup()`
+
+
+---
+# summarize()
+&lt;/br&gt;
+* After grouping by your variable(s) of interest, you can use `summarize()` with any function you want to create summary variables
+
+
+```r
+summary_data &lt;- data%&gt;%
+  group_by(species)%&gt;%
+  summarize(mean_length = mean(bill_length_mm, na.rm = TRUE),
+            min_length = min(bill_length_mm, na.rm = TRUE),
+            max_length = max(bill_length_mm, na.rm = TRUE))
+
+head(summary_data)
+```
+
+```
+## # A tibble: 3 x 4
+##   species   mean_length min_length max_length
+##   &lt;fct&gt;           &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Adelie           38.8       32.1       46  
+## 2 Chinstrap        48.8       40.9       58  
+## 3 Gentoo           47.5       40.9       59.6
+```
+
+---
+
+# you can also use summarize() without grouping!
+&lt;/br&gt;
+
+
+
+```r
+summary_data &lt;- data%&gt;%
+  summarize(mean_length = mean(bill_length_mm, na.rm = TRUE),
+            min_length = min(bill_length_mm, na.rm = TRUE),
+            max_length = max(bill_length_mm, na.rm = TRUE))
+
+head(summary_data)
+```
+
+```
+## # A tibble: 1 x 3
+##   mean_length min_length max_length
+##         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1        43.9       32.1       59.6
+```
+
+---
+
+# Keeping all observations?
+&lt;/br&gt;
+* You can use mutate instead of `summarize()` to transform data by group and retain all observations
+
+
+```r
+summary_data &lt;- data%&gt;%
+  group_by(species)%&gt;%
+  mutate(mean_length = mean(bill_length_mm, na.rm = TRUE),
+            min_length = min(bill_length_mm, na.rm = TRUE),
+            max_length = max(bill_length_mm, na.rm = TRUE))%&gt;%
+  select(species, island, sex, mean_length, min_length, max_length)
+
+head(summary_data)
+```
+
+```
+## # A tibble: 6 x 6
+## # Groups:   species [1]
+##   species island    sex    mean_length min_length max_length
+##   &lt;fct&gt;   &lt;fct&gt;     &lt;fct&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Adelie  Torgersen male          38.8       32.1         46
+## 2 Adelie  Torgersen female        38.8       32.1         46
+## 3 Adelie  Torgersen female        38.8       32.1         46
+## 4 Adelie  Torgersen &lt;NA&gt;          38.8       32.1         46
+## 5 Adelie  Torgersen female        38.8       32.1         46
+## 6 Adelie  Torgersen male          38.8       32.1         46
+```
+
+---
+
+# Other useful dplyr functions
+&lt;/br&gt;
+* `distinct()` to select unique rows from a data frame
+
+* `top_n()` to filter the top n observations (you can use it in combination with `arrange()`)
+
+* `ntile()` ranks values into the number of groups you provide
+
+* `transmute()` works just like `mutate`, but drops existing variables (it works as a combination of `select` and `mutate`)
+
+* `rename()` to change the name of the variables in your data frame
+
+* All functions: https://dplyr.tidyverse.org/reference/index.html
+
+---
+class: inverse, center, middle
+# 3. Exploring data
+---
+background-image: url(https://pbs.twimg.com/media/DsdIzJ3VsAAbjMW?format=jpg&amp;name=900x900)
+background-size: 500px
+background-position: 50% 90%
+
+# The ggplot2 package
+&lt;/br&gt;
+* Part of the tidyverse (you can pipe your way to a ggplot!)
+
+* Layered syntax to create graphics
+
+* Great degree of customization
+
+---
+
+# ggplot2 layered syntax
+
+&lt;/br&gt;
+
+
+```r
+ggplot2(data= , aes(x=, y= ,…))+
+  geom_*()
+```
+
+* The **data**: your dataset
+
+* Within **aes**, you neet to tell ggplot **how to map variables to the plotting area**
+  + aes include x,y,color,fill, size,shape, …
+  
+* With your chosen `geom`, you're telling ggplot **how to plot your variables**
+  + geom_point(), geom_line(), geom_col(), geom_density()...
+  
+  + Full list of geoms: https://ggplot2.tidyverse.org/reference/
+
+* Layers are connected with the `+` symbol
+
+---
+
+
+
+# A basic ggplot: geom_point()
+
+How related is personal income to household income?
+
+
+```r
+data%&gt;%
+  ggplot(aes(x=flipper_length_mm, y=body_mass_g, 
+             color = species))+
+  geom_point()+
+  labs(x = "Flipper length(mm)",
+       t = "Body mass (g)")+
+  theme_minimal()
+```
+
+![](index_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+
+
+---
+# Distributions: geom_density()
+
+
+```r
+data%&gt;%
+  ggplot(aes(x = flipper_length_mm, color = species))+
+  geom_density()+
+  theme_minimal()
+```
+
+![](index_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+---
+# Customizing your ggplots
+
+* To customize **non-data** components of your plot, we use **themes**
+
+* You can use built-in ggplot themes or create your own
+
+* All theme components can be found here https://ggplot2.tidyverse.org/reference/theme.html
+
+* If you want to combine a built-in theme with your own customization, remember to write your `theme()` function &lt;int&gt;after&lt;/int&gt; the built-in theme call
+
+* Changing text can be done with `labs()`
+
+
+---
+
+# Customizing your ggplots (II)
+
+* It is possible to change the **limits**, the **breaks** and the **labels** of any aes in ggplot. This is done through scales.
+
+* Continuous scales and their elements can be modified within `scale_x_continuous()` and `scale_y_continuous()`
+
+* When having discrete scales in ggplot2, like color in our case, there are two functions that you can use
+* If you only want to change limits, breaks and labels, these can be modified within `scale_color_discrete()`
+
+* If you want to change **the values of the colors** as well, you need to use `scale_color_manual()`to change the **values** argument
+  
+---
+
+# Some resources
+
+* Resources for learning data analysis and visualization with R https://arianeaumaitre.com/2020/03/15/resources-for-learning-data-analysis-and-visualization-with-r/
+
+* R for Data Science https://r4ds.had.co.nz/
+
+* Datacamp https://www.datacamp.com/
+
+* R graphics cookbook http://www.cookbook-r.com/Graphs/
+
+---
+
+# Useful functions for next week
+
+* How to create a date column?
+
+
+```r
+library(lubridate) #to work with dates
+
+yourdata %&gt;%
+  mutate(date = make_date(year, month, day))
+```
+
+* To plot daily cases, you will probably need to use a line plot: this can be done with `geom_line()` 
+
+* You can filter any country you're interested in, or maybe look at some comparisons using the color aes 🎨
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
